@@ -1,0 +1,40 @@
+html, body {
+  background-color: #819AFF;
+  /* max-width: 680px; */
+  max-width: 800px;
+  /* max-width: 80%; */
+  width:auto;
+  position: relative;
+  min-height:100%
+  height:auto;
+  margin:12px auto;
+  font: normal large/1.4 'Droid Sans', arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+
+}
+
+aside {
+	float: right;
+	border:2px outset #888;
+	margin: 0em 1em 2em 1em;
+ 	width:30%;
+ 	display: inline-block;
+	height:auto;
+}
+
+aside ul {
+	list-style-type: none;
+	padding: 0.5em;
+	margin: 0px;
+	/* background-color:#eee; */
+}
+
+div.clearfix {
+	clear:both;
+}

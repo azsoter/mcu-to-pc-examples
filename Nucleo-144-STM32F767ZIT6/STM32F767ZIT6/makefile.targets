@@ -1,0 +1,4 @@
+App/web.o:	../App/web.S \
+	../App/web/demo.fth ../App/web/httpd-setup.fth ../App/web/led-demo.fth ../App/web/process_form.fth \
+	../App/web/index.html ../App/web/other_page.html ../App/web/style.css \
+	../App/web/icon.jpg ../App/web/favicon.png

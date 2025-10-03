@@ -1,0 +1,90 @@
+/*
+* rtos_config.h
+*
+*  Created on: Aug 27, 2020
+*      Author: Andras Zsoter
+*
+*      Copyright (c) Andras Zsoter 2020-2025.
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+*
+*/
+
+#ifndef RTOS_CONFIG_H
+#define RTOS_CONFIG_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <mcu2pc_config.h>
+
+#define OS_IS_JAEOS
+
+
+#define RTOS_TASK_NAME_LENGTH	32
+
+#define RTOS_TICKS_PER_SECOND 	1000 /* Keep this value, 1ms ticks are hard coded in HAL. */
+
+#define RTOS_INCLUDE_SEMAPHORES
+#define RTOS_INCLUDE_NAKED_EVENTS
+#define RTOS_INCLUDE_DELAY
+
+#define RTOS_Priority_Cli		              1
+#define RTOS_Priority_Serial_Receiver		  2
+#define RTOS_Priority_Task_Test		          3
+#define RTOS_Priority_Httpd					  4
+#define RTOS_Priority_Comproto_TCP_Receiver   5
+#define RTOS_Priority_Packetized_Eth_Receiver 6
+#define RTOS_Priority_TaskMain	              7
+
+
+#if defined(CONFIG_ETHERNET_TRANSMITTER_THREAD)
+
+#define RTOS_Priority_Ethernet_Receiver       8
+#define RTOS_Priority_Ethernet_Transmitter	  9
+
+// RTOS_Priority_Highest must be defined and it must be equal to the highest priority ever used by the application.
+#define RTOS_Priority_Highest    RTOS_Priority_Ethernet_Transmitter
+
+#else
+#define RTOS_Priority_Ethernet_Receiver       8
+// RTOS_Priority_Highest must be defined and it must be equal to the highest priority ever used by the application.
+#define RTOS_Priority_Highest    RTOS_Priority_Ethernet_Receiver
+
+#endif
+
+extern void system_time_tick(void);
+#define RTOS_TIMER_EXTRA_ACTION() system_time_tick()
+
+// ------------------------------------------ ASSERTS --------------------------------------------------------
+extern void app_AssertFailed(const char *condition, const char *file, const char *line, const char *function);
+#define STRINGIFY(X) #X
+#define STR(X) STRINGIFY(X)
+#define RTOS_ASSERT(COND)  (COND) ? (void)0 : app_AssertFailed(#COND, __FILE__, STR(__LINE__), __func__)
+#define RTOS_USE_ASSERTS
+// -----------------------------------------------------------------------------------------------------------
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
