@@ -73,6 +73,7 @@
 #if defined(NETWORK_DNS_SUPPORT) || defined(NETWORK_MDNS_SUPPORT)
 #include <dns_internal.h>
 #include <dns.h>
+extern int dns_test(void);
 #endif
 #include <version.h>
 // -----------------------
