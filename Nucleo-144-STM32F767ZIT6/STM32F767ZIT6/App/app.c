@@ -4,7 +4,7 @@
 *  Created on: Aug 27, 2020
 *      Author: Andras Zsoter
 *
-*      Copyright (c) Andras Zsoter 2020-2025.
+*      Copyright (c) Andras Zsoter 2020-2026.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -73,7 +73,6 @@
 #if defined(NETWORK_DNS_SUPPORT) || defined(NETWORK_MDNS_SUPPORT)
 #include <dns_internal.h>
 #include <dns.h>
-extern int dns_test(void);
 #endif
 #include <version.h>
 // -----------------------
@@ -428,9 +427,13 @@ ip_parser_test();
 	RTOS_CreateTask(&(task[RTOS_Priority_Comproto_TCP_Receiver - 1]),   "I/O_TCP_Packetized",  RTOS_Priority_Comproto_TCP_Receiver, stack[RTOS_Priority_Comproto_TCP_Receiver - 1],   STACK_SIZE, &io_task_packetized_tcp, &pphTcp);
 #endif
 
+#if defined(NETWORK_DNS_SUPPORT)
 	dns_test();
+#endif
 
+#if defined(SYSLOG_SUPPORT)
 	syslog_init();
+#endif
 
 #if defined(FORTH_INCLUDE_BLOCKS) && defined(CONFIG_DEVICE_CONFIG_IN_FORTH_BLOCKS)
 	if (0 != delayed_config[0])
